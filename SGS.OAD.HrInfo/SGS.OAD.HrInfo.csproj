@@ -15,7 +15,7 @@
     <Authors>Brian</Authors>
     <Owners>OAD</Owners>
     <Company>SGS Taiwan Ltd.</Company>
-    <Description>SGS AD 驗證函式庫</Description>
+    <Description>SGS HR 資料取用</Description>
     <PackageIcon>icon.png</PackageIcon>
     <IncludeContentInPack>true</IncludeContentInPack>
     <ContentTargetFolders>content</ContentTargetFolders>
