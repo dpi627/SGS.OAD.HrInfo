@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGS.OAD.HrInfo", "SGS.OAD.HrInfo\SGS.OAD.HrInfo.csproj", "{666547F2-5B69-41F9-95E6-0B28739C3D0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console8", "Console8\Console8.csproj", "{71224DB8-1DD3-4D2D-9980-6BF8ED36635C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{666547F2-5B69-41F9-95E6-0B28739C3D0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{666547F2-5B69-41F9-95E6-0B28739C3D0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{666547F2-5B69-41F9-95E6-0B28739C3D0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71224DB8-1DD3-4D2D-9980-6BF8ED36635C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71224DB8-1DD3-4D2D-9980-6BF8ED36635C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71224DB8-1DD3-4D2D-9980-6BF8ED36635C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71224DB8-1DD3-4D2D-9980-6BF8ED36635C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
