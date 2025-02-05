@@ -6,6 +6,9 @@ using Microsoft.Data.SqlClient;
 
 namespace SGS.OAD.HrInfo;
 
+/// <summary>
+/// HrInfoHelper 類別，用於處理 HR 資料的輔助類別。
+/// </summary>
 public class HrInfoHelper
 {
     private string? _serverName = "APSE-IDB029";
@@ -14,29 +17,60 @@ public class HrInfoHelper
 
     private HrInfoHelper() { }
 
+    /// <summary>
+    /// 建立 HrInfoHelper 的建構器。
+    /// </summary>
+    /// <returns>返回 Builder 物件。</returns>
     public static Builder Create()
     {
         return new Builder();
     }
 
+    /// <summary>
+    /// HrInfoHelper 的建構器類別。
+    /// </summary>
     public class Builder
     {
         private readonly HrInfoHelper instance = new();
+
+        /// <summary>
+        /// 設定連接字串。
+        /// </summary>
+        /// <param name="connectionString">連接字串。</param>
+        /// <returns>返回 Builder 物件。</returns>
         public Builder WithConnectionString(string connectionString)
         {
             instance._connectionString = connectionString;
             return this;
         }
+
+        /// <summary>
+        /// 設定資料庫伺服器名稱和資料庫名稱。
+        /// </summary>
+        /// <param name="serverName">伺服器名稱。</param>
+        /// <param name="databseName">資料庫名稱。</param>
+        /// <returns>返回 Builder 物件。</returns>
         public Builder WithDataBase(string serverName, string databseName)
         {
             instance._serverName = serverName;
             instance._databaseName = databseName;
             return this;
         }
+
+        /// <summary>
+        /// 建立 HrInfoHelper 物件。
+        /// </summary>
+        /// <returns>返回 HrInfoHelper 物件。</returns>
         public HrInfoHelper Build()
         {
             return BuildAsync().GetAwaiter().GetResult();
         }
+
+        /// <summary>
+        /// 非同步建立 HrInfoHelper 物件。
+        /// </summary>
+        /// <param name="cancellationToken">取消操作的標記。</param>
+        /// <returns>返回 HrInfoHelper 物件。</returns>
         public async Task<HrInfoHelper> BuildAsync(CancellationToken cancellationToken = default)
         {
             if (!string.IsNullOrEmpty(instance._connectionString))
@@ -50,21 +84,42 @@ public class HrInfoHelper
         }
     }
 
+    /// <summary>
+    /// 根據 AD 帳號取得員工編號。
+    /// </summary>
+    /// <param name="AdId">AD 帳號。</param>
+    /// <returns>返回員工編號。</returns>
     public string GetEmpId(string AdId)
     {
         return GetEmpIdAsync(AdId).GetAwaiter().GetResult();
     }
 
+    /// <summary>
+    /// 根據 AD 帳號取得員工資料。
+    /// </summary>
+    /// <param name="adId">AD 帳號。</param>
+    /// <returns>返回 Employee 物件。</returns>
     public Employee GetByAdId(string adId)
     {
         return GetByAdIdAsync(adId).GetAwaiter().GetResult();
     }
 
+    /// <summary>
+    /// 根據員工編號取得員工資料。
+    /// </summary>
+    /// <param name="empId">員工編號。</param>
+    /// <returns>返回 Employee 物件。</returns>
     public Employee GetByEmpId(string empId)
     {
         return GetByEmpIdAsync(empId).GetAwaiter().GetResult();
     }
 
+    /// <summary>
+    /// 非同步根據 AD 帳號取得員工資料。
+    /// </summary>
+    /// <param name="adId">AD 帳號。</param>
+    /// <param name="cancellationToken">取消操作的標記。</param>
+    /// <returns>返回 Employee 物件。</returns>
     public async Task<Employee> GetByAdIdAsync(string adId, CancellationToken cancellationToken = default)
     {
         string query = @"
@@ -98,6 +153,12 @@ public class HrInfoHelper
         return emp ?? new Employee();
     }
 
+    /// <summary>
+    /// 非同步根據員工編號取得員工資料。
+    /// </summary>
+    /// <param name="empId">員工編號。</param>
+    /// <param name="cancellationToken">取消操作的標記。</param>
+    /// <returns>返回 Employee 物件。</returns>
     public async Task<Employee> GetByEmpIdAsync(string empId, CancellationToken cancellationToken = default)
     {
         string query = @"
@@ -130,12 +191,23 @@ public class HrInfoHelper
         return emp ?? new Employee();
     }
 
+    /// <summary>
+    /// 非同步根據 AD 帳號取得員工編號。
+    /// </summary>
+    /// <param name="adId">AD 帳號。</param>
+    /// <param name="cancellationToken">取消操作的標記。</param>
+    /// <returns>返回員工編號。</returns>
     public async Task<string> GetEmpIdAsync(string adId, CancellationToken cancellationToken = default)
     {
         Employee emp = await GetByAdIdAsync(adId, cancellationToken);
         return emp.StfCode;
     }
 
+    /// <summary>
+    /// 設定員工資料。
+    /// </summary>
+    /// <param name="reader">SqlDataReader 物件。</param>
+    /// <returns>返回 Employee 物件。</returns>
     private static Employee SetData(SqlDataReader reader)
     {
         return new Employee

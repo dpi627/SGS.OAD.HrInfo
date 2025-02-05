@@ -11,7 +11,7 @@
 
     <!-- NuGet Package Metadata -->
     <PackageId>SGS.OAD.HrInfo</PackageId>
-    <Version>25.2.2</Version>
+    <Version>25.2.3</Version>
     <Authors>Brian</Authors>
     <Owners>OAD</Owners>
     <Company>SGS Taiwan Ltd.</Company>
@@ -22,7 +22,7 @@
     <PackageTags>SGS, HR</PackageTags>
     <PackageProjectUrl>http://twvoadtpw100004.apac.global.sgs.com/brian_li/SGS.OAD.HrInfo</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageCopyright>Copytight © 2025 SGS Taiwan Ltd.</PackageCopyright>
+    <PackageCopyright>Copyright © 2025 SGS Taiwan Ltd.</PackageCopyright>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
