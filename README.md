@@ -7,9 +7,22 @@
 ![](https://img.shields.io/badge/-8-512BD4?logo=dotnet)
 ![](https://img.shields.io/badge/-NuGet-004880?logo=nuget)
 
+![](./assets/icon.png)
+
+- 抓取 HR 資料套件，資料來源已預設，其餘使用方式後述
+- 部署為內部 NuGet Package，依照正常套件使用方式即可
+
+# 📦SGS.OAD.HrInfo
+
+![](./assets/nuget-package-manager.png)
+
 # ✨How to Use
 
-以下說明套件使用方式
+- 新增內部 Package Source `\\twfs007\SGSSHARE\OAD\nuget\`
+  - 可加入 `nuget.config` 組態檔 (建議放置與 `*.sln` 同層)
+  - 或於 Visual Studio 2022 `NuGet Package Manager` 新增來源
+- 安裝方式與一般 NuGet 套件相同，可透過 CLI 或使用 `NuGet Package Manager`
+- 以下說明使用方式
 
 # 🌳Using Namespace
 
