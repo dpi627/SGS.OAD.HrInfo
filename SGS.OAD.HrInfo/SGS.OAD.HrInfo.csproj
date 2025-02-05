@@ -11,7 +11,7 @@
 
     <!-- NuGet Package Metadata -->
     <PackageId>SGS.OAD.HrInfo</PackageId>
-    <Version>25.2.1</Version>
+    <Version>25.2.2</Version>
     <Authors>Brian</Authors>
     <Owners>OAD</Owners>
     <Company>SGS Taiwan Ltd.</Company>
