@@ -6,12 +6,16 @@ internal class Util
 {
     public static string GetConnectionString(string server, string database, string appName = "SGS.OAD.HrInfo")
     {
-        return DbInfoBuilder.Init()
-        .SetServer(server)
-        .SetDatabase(database)
-        .SetAppName(appName)
-        .Build()
-        .ConnectionString;
+        return GetConnectionStringAsync(server, database, appName).GetAwaiter().GetResult();
+    }
+    public static async Task<string> GetConnectionStringAsync(string server, string database, string appName = "SGS.OAD.HrInfo", CancellationToken cancellationToken = default)
+    {
+        return await DbInfoBuilder.Init()
+            .SetServer(server)
+            .SetDatabase(database)
+            .SetAppName(appName)
+            .BuildAsync(cancellationToken)
+            .ContinueWith(t => t.Result.ConnectionString);
     }
 
     public static DateTime? GetDateTime(object val)
