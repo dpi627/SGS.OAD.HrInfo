@@ -35,7 +35,7 @@ var emp = helper.GetByAdId("your-ad-account");
 var emp = helper.GetByEmpId("your-emp-id");
 
 // 僅取員工編號
-string empId = helper.GetEmpId("your-ad-account");
+var empId = helper.GetEmpId("your-ad-account");
 ```
 
 💡透過方法取得之員工資料已轉為 `Employee` 型別物件
@@ -60,3 +60,20 @@ var helper = HrInfoHelper.Create()
     .WithDataBase("your-server-name", "your-db-name")
     .Build();
 ```
+
+# ⚡Async
+
+所有方法皆支援非同步操作
+
+```csharp
+var helper = await HrInfoHelper.Create().BuildAsync();
+
+// 透過 AD 帳號取得員工資料
+var emp = await helper.GetByAdIdAsync("your-ad-account");
+// 透過員工編號取得員工資料
+var emp = await helper.GetByEmpIdAsync("your-emp-id");
+// 僅取員工編號
+var empId = await helper.GetEmpIdAsync("your-ad-account");
+```
+
+💡所有非同步方法均支援取消操作 (即 `CancellationToken`)
