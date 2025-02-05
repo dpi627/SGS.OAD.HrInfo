@@ -35,29 +35,43 @@ public class HrInfoHelper
         }
         public HrInfoHelper Build()
         {
+            return BuildAsync().GetAwaiter().GetResult();
+        }
+        public async Task<HrInfoHelper> BuildAsync(CancellationToken cancellationToken = default)
+        {
             if (!string.IsNullOrEmpty(instance._connectionString))
                 return instance;
 
             if (string.IsNullOrEmpty(instance._serverName) || string.IsNullOrEmpty(instance._databaseName))
                 throw new InvalidOperationException("ServerName and DatabaseName must be provided.");
 
-            instance._connectionString = Util.GetConnectionString(instance._serverName, instance._databaseName);
+            instance._connectionString = await Util.GetConnectionStringAsync(instance._serverName, instance._databaseName, cancellationToken: cancellationToken);
             return instance;
         }
     }
 
     public string GetEmpId(string AdId)
     {
-        return GetByAdId(AdId).StfCode;
+        return GetEmpIdAsync(AdId).GetAwaiter().GetResult();
     }
 
     public Employee GetByAdId(string adId)
     {
+        return GetByAdIdAsync(adId).GetAwaiter().GetResult();
+    }
+
+    public Employee GetByEmpId(string empId)
+    {
+        return GetByEmpIdAsync(empId).GetAwaiter().GetResult();
+    }
+
+    public async Task<Employee> GetByAdIdAsync(string adId, CancellationToken cancellationToken = default)
+    {
         string query = @"
-                SELECT TOP 1 *
-                FROM Employee (nolock)
-                WHERE ADAccount = @adAccount AND (QUITDATE = 0 OR QUITDATE >= @today)
-            ";
+            SELECT TOP 1 *
+            FROM Employee (nolock)
+            WHERE ADAccount = @adAccount AND (QUITDATE = 0 OR QUITDATE >= @today)
+        ";
 
         Employee? emp = null;
 
@@ -65,13 +79,12 @@ public class HrInfoHelper
         {
             try
             {
-                connection.Open();
-
+                await connection.OpenAsync(cancellationToken);
                 using SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@adAccount", adId);
                 command.Parameters.AddWithValue("@today", DateTime.Now.ToString("yyyyMMdd"));
-                using SqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
+                using SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
+                if (await reader.ReadAsync(cancellationToken))
                 {
                     emp = SetData(reader);
                 }
@@ -85,13 +98,13 @@ public class HrInfoHelper
         return emp ?? new Employee();
     }
 
-    public Employee GetByEmpId(string empId)
+    public async Task<Employee> GetByEmpIdAsync(string empId, CancellationToken cancellationToken = default)
     {
         string query = @"
-                SELECT TOP 1 *
-                FROM Employee (nolock)
-                WHERE stf_code = @empId
-            ";
+            SELECT TOP 1 *
+            FROM Employee (nolock)
+            WHERE stf_code = @empId
+        ";
 
         Employee? emp = null;
 
@@ -99,12 +112,11 @@ public class HrInfoHelper
         {
             try
             {
-                connection.Open();
-
+                await connection.OpenAsync(cancellationToken);
                 using SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@empId", empId);
-                using SqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
+                using SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
+                if (await reader.ReadAsync(cancellationToken))
                 {
                     emp = SetData(reader);
                 }
@@ -116,6 +128,12 @@ public class HrInfoHelper
         }
 
         return emp ?? new Employee();
+    }
+
+    public async Task<string> GetEmpIdAsync(string adId, CancellationToken cancellationToken = default)
+    {
+        Employee emp = await GetByAdIdAsync(adId, cancellationToken);
+        return emp.StfCode;
     }
 
     private static Employee SetData(SqlDataReader reader)
