@@ -36,8 +36,8 @@
     <Reference Include="SGS.OAD.DB, Version=24.11.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SGS.OAD.DB.24.11.1\lib\net481\SGS.OAD.DB.dll</HintPath>
     </Reference>
-    <Reference Include="SGS.OAD.HrInfo, Version=25.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SGS.OAD.HrInfo.25.2.0\lib\net481\SGS.OAD.HrInfo.dll</HintPath>
+    <Reference Include="SGS.OAD.HrInfo, Version=25.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SGS.OAD.HrInfo.25.2.2\lib\net481\SGS.OAD.HrInfo.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
