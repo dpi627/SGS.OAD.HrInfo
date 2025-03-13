@@ -63,7 +63,13 @@ public class HrInfoHelper
         /// <returns>返回 HrInfoHelper 物件。</returns>
         public HrInfoHelper Build()
         {
-            return BuildAsync().GetAwaiter().GetResult();
+            if (!string.IsNullOrEmpty(instance._connectionString))
+                return instance;
+
+            if (string.IsNullOrEmpty(instance._serverName) || string.IsNullOrEmpty(instance._databaseName))
+                throw new InvalidOperationException("ServerName and DatabaseName must be provided.");
+            instance._connectionString = Util.GetConnectionString(instance._serverName, instance._databaseName);
+            return instance;
         }
 
         /// <summary>
@@ -111,7 +117,36 @@ public class HrInfoHelper
     /// <returns>返回 Employee 物件。</returns>
     public Employee GetByEmpId(string empId)
     {
-        return GetByEmpIdAsync(empId).GetAwaiter().GetResult();
+        string query = @"
+            SELECT TOP 1 *
+            FROM Employee (nolock)
+            WHERE stf_code = @empId
+        ";
+
+        Employee? emp = null;
+
+        using (SqlConnection connection = new(_connectionString))
+        {
+            try
+            {
+                connection.Open();
+                using SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@empId", empId);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        emp = SetData(reader);
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        return emp ?? new Employee();
     }
 
     /// <summary>
@@ -178,10 +213,10 @@ public class HrInfoHelper
                 command.Parameters.AddWithValue("@empId", empId);
                 using SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
                 if (await reader.ReadAsync(cancellationToken))
-                {
-                    emp = SetData(reader);
+                    {
+                        emp = SetData(reader);
+                    }
                 }
-            }
             catch
             {
                 throw;

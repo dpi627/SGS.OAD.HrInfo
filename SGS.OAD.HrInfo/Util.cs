@@ -13,7 +13,12 @@ internal class Util
     /// <returns>連接字串。</returns>
     public static string GetConnectionString(string server, string database, string appName = "SGS.OAD.HrInfo")
     {
-        return GetConnectionStringAsync(server, database, appName).GetAwaiter().GetResult();
+        var dbInfo = DbInfoBuilder.Init()
+            .SetServer(server)
+            .SetDatabase(database)
+            .SetAppName(appName)
+            .Build();
+        return dbInfo.ConnectionString;
     }
 
     /// <summary>
