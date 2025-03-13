@@ -86,7 +86,6 @@ public class HrInfoHelper
                 throw new InvalidOperationException("ServerName and DatabaseName must be provided.");
 
             instance._connectionString = await Util.GetConnectionStringAsync(instance._serverName, instance._databaseName, cancellationToken: cancellationToken);
-
             return instance;
         }
     }
